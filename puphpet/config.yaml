@@ -134,11 +134,19 @@ nginx:
             rewrite_to_https: '1'
             spdy: '1'
             locations:
-                nxvl_4hup0tb58bi4:
-                    www_root: /var/www/web
-                    location: '~ ^/index\.php(/|$)'
-                    index_files:
-                        - index.php
+                nxvl_5g0ofu0kqata:
+                    location: /
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: ''
+                    fastcgi_index: ''
+                    fastcgi_split_path: ''
+                    proxy: ''
+                    proxy_redirect: ''
+                nxvl_7g2gryhvspcs:
+                    location: '~ \.php$'
                     try_files:
                         - $uri
                         - $uri/
@@ -147,7 +155,8 @@ nginx:
                     fastcgi_index: index.php
                     fastcgi_split_path: '^(.+\.php)(/.*)$'
                     fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+                        - 'SCRIPT_FILENAME $request_filename'
+                        - 'APP_ENV dev'
                     set:
                         - '$path_info $fastcgi_path_info'
                     proxy: ''
