@@ -2,12 +2,24 @@
 
 namespace tests\models;
 
-use app\models\LoginForm;
 use Codeception\Specify;
+use Codeception\Test\Unit;
+use app\modules\user\models\LoginForm;
+use tests\_fixtures\UserFixture;
 
-class LoginFormTest extends \Codeception\Test\Unit
+class LoginFormTest extends Unit
 {
     private $model;
+
+    protected function _before()
+    {
+        $this->tester->haveFixtures([
+            'user' => [
+                'class' => UserFixture::className(),
+                'dataFile' => '@tests/_data/user.php'
+            ]
+        ]);
+    }
 
     protected function _after()
     {
